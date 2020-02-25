@@ -1,7 +1,7 @@
 # Git Tutorial
 This tutorial is intended to teach you how to use git for version control, proper branch workflow, and handling merge conflicts.
 
-## Lets create a git repository
+## Let us create a git repository
 Navigate to the project in gitlab underwhich you'd like to create your repository and, near the top-right corner, click the green "New Project" button. I am creating this one under RSI Development Team > RSI Internal and naming it "git tutorial".
 
 <image>
@@ -10,8 +10,8 @@ Fill in the project name and click the green "Create Project" button at the bott
 
 <image>
 
-## Lets create our first file, the README.md
-Currently, you are on the master branch. The master branch should be reserved for production code only. Lets initialize a README.md and then switch over to a new branch.
+## Let us create our first file, the README.md
+Currently, you are on the master branch. The master branch should be reserved for production code only. Lets initialize a README.md and then switch over to a new branch, which we will call 'dev'.
 
     touch README.md
 
@@ -31,5 +31,94 @@ git push - pushes the changes to the repository
 
 git checkout -b - use 'git checkout' to checkout another existing branch. Use the '-b' to create a new branch.
 
+## Let us create a new source code file
+Open a file called main.py and insert the following into it:
 
+    def main():
+        print('helloworld!')
+
+    main()
+
+Now add our new file, commit and push:
+
+    git add main.py
+    git commit -m 'initialized main.py'
+    git push --set-upstream origin dev
+
+Note, on new branches, your very first push will have to include '--set-upstream origin <branch-name>'.
+
+## Branch workflow
+Suppose you have two developers. Both of them notice the error in our print statement, i.e., there is no space between 'hello' and 'world!'.
+
+The proper thing to do would be to make a new 'hot-fix' branch off of dev, fix the error, and then merge back into dev. One developer does the proper method while the other fixes it directly on dev.
+
+Lets assume you are the second developer. Create a new branch called 'hot-fix'.
+
+    git checkout -b hot-fix
+
+Open up 'main.py' and change it to the following:
+
+    def main():
+        print('hello world!')
+
+    main()
+
+Now lets add, commit, and push.
+
+    git add main.py
+    git commit -m 'fixed typo'
+    git push --set-upstream origin hot-fix
+
+Meanwhile, let us assume the other developer is also editing 'main.py' on the dev branch. Checkout dev and change 'main.py' to the following:
+
+    def main():
+
+        print('Hello World!!!')
+
+    main()
+
+Now add, commit, and push:
+
+    git add main.py
+    git commit -m 'fixed typo'
+    git push
+
+Now, let us assume that the developer on the hot-fix branch is ready to merge their changes back into dev. First run the following:
+
+    git merge dev hot-fix
+
+This will tell you if there are going to be any conflicts, which based off of the message we received:
+
+    Auto-merging main.py
+    CONFLICT (content): Merge conflict in main.py
+    Automatic merge failed; fix conflicts and then commit the result.
+
+we have a conflict. The message says the conflict is in 'main.py'. If you open 'main.py', you will see the following:
+
+    def main():
+    <<<<<<< HEAD
+        print('hello world!')
+    =======
+    
+        print('Hello World!!!')
+    >>>>>>> dev
+
+    main()
+
+the <<<<<<< HEAD section represents the source code on the hot-fix branch, while the >>>>>>> dev version is on dev. To fix the conflict, you must choose to either keep one of the versions, or make something completely different. To keep the hot-fix version, simply delete <<<<<<<< HEAD, and everything between ======== and >>>>>>>> dev to make 'main.py' look like the following:
+
+    def main():
+        print('hello world!)
+
+    main()
+
+Now add, commit, and push.
+
+    git add main.py
+    git commit -m 'fixed conflicts'
+    git push
+
+Now, checkout dev and run the following:
+
+    git merge hot-fix dev
 
