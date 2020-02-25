@@ -121,4 +121,11 @@ Now add, commit, and push.
 Now, checkout dev and run the following:
 
     git merge hot-fix dev
+    git push
+
+The typo has been fixed, conflicts mitigated, and the hot-fix has been merged into the dev branch. Note, conflicts happen when two or more people on separate branches are editing the same lines of code. Developers on separate branches should be working on different portions of the code, which is part of the ideal branch workflow.
+
+## The ideal branch workflow
+
+
 
