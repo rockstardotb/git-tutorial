@@ -4,11 +4,11 @@ This tutorial is intended to teach you how to use git for version control, prope
 ## Let us create a git repository
 Navigate to the project in gitlab underwhich you'd like to create your repository and, near the top-right corner, click the green "New Project" button. I am creating this one under RSI Development Team > RSI Internal and naming it "git tutorial".
 
-<image>
+<img src="images/git1.png">
 
 Fill in the project name and click the green "Create Project" button at the bottom. Then, follow the instructions for cloning your repo to your computer.
 
-<image>
+<img src="images/git2.png">
 
 ## Let us create our first file, the README.md
 Currently, you are on the master branch. The master branch should be reserved for production code only. Lets initialize a README.md and then switch over to a new branch, which we will call 'dev'.
@@ -127,5 +127,18 @@ The typo has been fixed, conflicts mitigated, and the hot-fix has been merged in
 
 ## The ideal branch workflow
 
+Whether you are working on a hot-fix, or adding a new feature, you should branch off of dev. While off of dev, you should commit often. Break tasks down into small enough segments that you can finish your branches and merge back to dev daily. An ideal branch workflow looks like this:
 
+<img src="images/git3.png">
+
+Any time the current version of dev is production ready, we'll want to merge dev with master.
+
+    git merge master dev
+    git checkout master
+    git merge dev master
+    git push
+
+    git checkout dev
+
+And that's it! This sums up the git workshop!
 
