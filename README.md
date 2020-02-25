@@ -45,7 +45,7 @@ Now add our new file, commit and push:
     git commit -m 'initialized main.py'
     git push --set-upstream origin dev
 
-Note, on new branches, your very first push will have to include '--set-upstream origin <branch-name>'.
+Note, on new branches, your very first push will have to include '--set-upstream origin <i>branch-name</i>'.
 
 ## Branch workflow
 Suppose you have two developers. Both of them notice the error in our print statement, i.e., there is no space between 'hello' and 'world!'.
