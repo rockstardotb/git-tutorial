@@ -140,5 +140,5 @@ Any time the current version of dev is production ready, we'll want to merge dev
 
     git checkout dev
 
-And that's it! This sums up the git workshop!
+And that's it! This sums up the git workshop on basic git commands, branch workflow, and mitigating merge conflicts. For anything else, please refer to https://www.git-tower.com/blog/git-cheat-sheet/
 
