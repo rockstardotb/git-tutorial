@@ -52,7 +52,7 @@ Suppose you have two developers. Both of them notice the error in our print stat
 
 The proper thing to do would be to make a new 'hot-fix' branch off of dev, fix the error, and then merge back into dev. One developer does the proper method while the other fixes it directly on dev.
 
-Let us assume you are the second developer. Create a new branch called 'hot-fix'.
+Lets assume you are the second developer. Create a new branch called 'hot-fix'.
 
     git checkout -b hot-fix
 
@@ -63,7 +63,7 @@ Open up 'main.py' and change it to the following:
 
     main()
 
-Now let us add, commit, and push.
+Now lets add, commit, and push.
 
     git add main.py
     git commit -m 'fixed typo'
@@ -118,7 +118,7 @@ Now add, commit, and push.
     git commit -m 'fixed conflicts'
     git push
 
-Now checkout dev and run the following:
+Now, checkout dev and run the following:
 
     git merge hot-fix dev
     git push
