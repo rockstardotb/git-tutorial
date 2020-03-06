@@ -1,5 +1,5 @@
 # Git Tutorial
-This tutorial is intended to teach you how to use git for version control, proper branch workflow, and handling merge conflicts.
+This tutorial is intended to teach you how to use git for version control, proper branch workflow, handling merge conflicts, and reverting to previous commits.
 
 ## Let us create a git repository
 Navigate to the project in gitlab underwhich you'd like to create your repository and, near the top-right corner, click the green "New Project" button. I am creating this one under RSI Development Team > RSI Internal and naming it "git tutorial".
@@ -47,12 +47,12 @@ Now add our new file, commit and push:
 
 Note, on new branches, your very first push will have to include '--set-upstream origin <i>branch-name</i>'.
 
-## Branch workflow
+## Branch workflow and Merge Conflicts
 Suppose you have two developers. Both of them notice the error in our print statement, i.e., there is no space between 'hello' and 'world!'.
 
 The proper thing to do would be to make a new 'hot-fix' branch off of dev, fix the error, and then merge back into dev. One developer does the proper method while the other fixes it directly on dev.
 
-Lets assume you are the second developer. Create a new branch called 'hot-fix'.
+Let us assume you are the second developer. Create a new branch called 'hot-fix'.
 
     git checkout -b hot-fix
 
@@ -63,7 +63,7 @@ Open up 'main.py' and change it to the following:
 
     main()
 
-Now lets add, commit, and push.
+Now let us add, commit, and push.
 
     git add main.py
     git commit -m 'fixed typo'
@@ -118,12 +118,92 @@ Now add, commit, and push.
     git commit -m 'fixed conflicts'
     git push
 
-Now, checkout dev and run the following:
+Now checkout dev and run the following:
 
     git merge hot-fix dev
     git push
 
 The typo has been fixed, conflicts mitigated, and the hot-fix has been merged into the dev branch. Note, conflicts happen when two or more people on separate branches are editing the same lines of code. Developers on separate branches should be working on different portions of the code, which is part of the ideal branch workflow.
+
+## Too many errors to count? Git revert to previous commit
+
+Suppose development has occurred over several days. git checkout dev and change main.py to the following:
+
+    def main():
+        msg = 'hello world!'
+
+        vowels = ['a','e','i','o','u']
+
+        msg = list(msg)
+        msg_copy = msg.copy()
+        idx = 0
+        for i in range(len(msg)):
+            if msg[i] in vowels:
+                msg_copy.pop(idx)
+                idx -= 1
+            idx += 1
+
+        msg = ''.join(msg_copy)
+        msg = msg.upper()
+
+        print(msg)
+
+
+    main()
+
+Now git add, git commit, and git push your changes.
+
+You notice now when you run 'python main.py' you no longer get the expected output. The code has completely changed and you have no clue where to start. You have determined it will take more time debugging the code than to simply revert back to the previous working commit. To revert back, do the following:
+
+First find the specific commit that you want to revert back to by running:
+
+    git log --oneline
+    
+which returns the following:
+
+    af22d36 (HEAD -> dev, origin/dev) added some data cleaning and transformations
+    86b21d0 (origin/master, master) Update README.md
+    841450e Update README.md
+    07a4a4e Update README.md
+    caac3fb updated with notes on branch workflow
+    bb9cee1 edited notes
+    40a87c6 (origin/hot-fix, hot-fix) updated with instructions for handling conflicts
+    e610cac fixed conflicts
+    89e2030 fixed typo
+    34b0af8 fixed typo
+    06cb8b7 initialized main.py
+    62a97d3 updated with notes for adding, commiting, pushing, and checking out new branches
+    e0b57ab add README
+
+Note, the top line shows our most recent commit on the dev branch. The one before it is our merge from dev to master. The commit we want to revert back to is the third one down with hash 841450e. To revert back to this commit, do the following:
+
+    git checkout 841450e .
+    git add -A
+    git commit -m "Revert commit: 841450e"
+    git push
+
+Now, if we run 'python main.py' we'll see 'hello world!' printed out, which is what we expect. You can also confirm the revert worked by running:
+
+    git log --oneline
+    
+which returns the following"
+
+    49505c5 (HEAD -> dev, origin/dev) revert commit: 841450e
+    af22d36 added some data cleaning and transformations
+    86b21d0 (origin/master, master) Update README.md
+    841450e Update README.md
+    07a4a4e Update README.md
+    caac3fb updated with notes on branch workflow
+    bb9cee1 edited notes
+    40a87c6 (origin/hot-fix, hot-fix) updated with instructions for handling conflicts
+    e610cac fixed conflicts
+    89e2030 fixed typo
+    34b0af8 fixed typo
+    06cb8b7 initialized main.py
+    62a97d3 updated with notes for adding, commiting, pushing, and checking out new branches
+    e0b57ab add README
+
+Note, the top line shows our revert was successful.
 
 ## The ideal branch workflow
 
