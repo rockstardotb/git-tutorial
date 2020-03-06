@@ -186,7 +186,7 @@ Now, if we run 'python main.py' we'll see 'hello world!' printed out, which is w
 
     git log --oneline
     
-which returns the following"
+which returns the following:
 
     49505c5 (HEAD -> dev, origin/dev) revert commit: 841450e
     af22d36 added some data cleaning and transformations
